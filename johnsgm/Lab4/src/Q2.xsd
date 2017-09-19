@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:simpleType name="phonetype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\([0-9]{3}\)|[0-9]{3})(-| )?[0-9]{3}(-| )?[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="emailtype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z_+.\-]+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ostype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Linux" />
+			<xs:enumeration value="Mac" />
+			<xs:enumeration value="PC" />
+		</xs:restriction>
+	</xs:simpleType >
+
+	<xs:simpleType name="postalcodetype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType >
+	
+	
+	<xs:complexType name="paltype">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="nickname" type="xs:string" minOccurs="0"/>
+			<xs:element name="birthday" type="xs:date" minOccurs="0"/>
+			<xs:element name="os" type="ostype"/>
+			<xs:element name="address" type="xs:string"/>
+			<xs:element name="postal_code" type="postalcodetype" minOccurs="0"/>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="phone" type="phonetype" />
+					<xs:element name="e-mail" type="emailtype" minOccurs="0"/>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="e-mail" type="emailtype" />
+					<xs:element name="phone" type="phonetype" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="contacts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="pal" type="paltype" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <script type="text/javascript">
+        function isCreditCardValid(sText)
+        {
+        	if(/[^\d]/.test(sText)) msg("Invalid Number");
+        	else if(/^4[0-9]{12}[0-9]{3}$/.test(sText)) checksum(sText);
+        	else if(/^5[1-5][0-9]{14}$/.test(sText)) checksum(sText);
+        	else if(/^3[47][0-9]{13}$/.test(sText)) checksum(sText);
+        	else msg("Invalid Number");
+        }
+
+        function checksum(sText)
+        {
+        	var sum = Number(sText[sText.length-1]);
+        	var dig = 0;
+        	var i;
+        	var toggle = true;
+        	for(i=sText.length - 2; i>=0; i--)
+        	{
+        		dig = Number(sText[i]);
+        		if(toggle)
+        		{
+        			sum += dig*2 > 9 ? dig*2-9 : dig*2;
+        			toggle = false
+        		}
+        		else
+        		{
+        			sum += dig;
+        			toggle = true;
+        		}
+        		
+        	}
+        	if(sum%10 == 0) msg("Valid Number!");
+        	else msg("Invalid Number");
+        }
+
+        function msg(text)
+        {
+        	document.getElementById("message").innerHTML = text;
+    	}
+    </script>
+<body>
+<h1>4TB3 Lab 3: Question 1</h1>
+<h3>Gavin Johnson 1217930</h3>
+    <p>
+        Credit Card Number: <input type="text" id="CCnumber" value=""><br>
+    </p>
+    <button onclick="isCreditCardValid(document.getElementById('CCnumber').value)">Submit</button>
+    <p id="message"></p>
+</body>
+  
